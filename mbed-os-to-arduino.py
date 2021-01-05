@@ -12,6 +12,8 @@ valid_complete_variants = ["ARDUINO_NANO33BLE:ARDUINO_NANO33BLE", "PORTENTA_H7_M
 valid_incomplete_variants = ["ARDUINO_NANO33BLE", "PORTENTA_H7_M4", "PORTENTA_H7_M7"]
 
 
+#def get_arguments():
+
 # TODO: Check validity of passed arguments
 # check if the path are actually accessible // path must be absolute
 parser = ArgumentParser()
@@ -28,6 +30,7 @@ parser.add_argument("--profile", type=str, dest="profile", choices=["debug","dev
 parser.add_argument("variants", type=str, nargs="+", help="List of variant boards for which mbed is recompiled")
 args = parser.parse_args()
 
+#def print_summary():
 # Summary passed arguments and flags
 #if (args.clean_flag):
   #print ("c ")
@@ -84,7 +87,7 @@ def main():
     mbed_cmd_exec.apply_patches()
     mbed_cmd_exec.mbed_compile()
 
-    core_cmd_exec.configure(arduino_variant, board_name)
+    core_cmd_exec.configure(arduino_variant, arduino_core_mbed, board_name, profile)
     core_cmd_exec.generate_defines()
     core_cmd_exec.generate_includes()
     core_cmd_exec.generate_flags()
@@ -93,3 +96,7 @@ def main():
 
 if __name__ == "__main__":
   main()
+
+
+#TODO: validate the script by comparing output files of mbed compiled 
+# for all the targets (nano and portenta)
