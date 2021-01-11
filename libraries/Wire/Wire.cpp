@@ -136,15 +136,10 @@ void arduino::MbedI2C::receiveThd() {
 			case mbed::I2CSlave::WriteGeneral:
 			case mbed::I2CSlave::WriteAddressed:
 				rxBuffer.clear();
-				char buf[16];
-				while (1) {
-					int c = slave->read(buf, sizeof(buf));
-					for (int i = 0; i < c; i++) {
-						rxBuffer.store_char(uint8_t(buf[i]));
-					}
-					if (c <= sizeof(buf)) {
-						break;
-					}
+				char buf[256];
+				int c = slave->read(buf, sizeof(buf));
+				for (int i = 0; i < c; i++) {
+					rxBuffer.store_char(uint8_t(buf[i]));
 				}
 				if (rxBuffer.available() > 0 && onReceiveCb != NULL) {
 					onReceiveCb(rxBuffer.available());
